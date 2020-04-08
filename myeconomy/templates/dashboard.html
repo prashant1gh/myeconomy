@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    Dashboard
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit">
+    </form>
+    <div style="border: 1px solid black; width: auto;">
+        <h4>summary</h4>
+        Total Income: Rs {{total_income|stringformat:".2f"}}<br>
+        Total Expense: Rs {{total_expense|stringformat:".2f"}}<br>
+        Balance: Rs {{ balance|stringformat:".2f" }}
+    </div>
+    {% if transactions %}
+    {% for transaction in transactions %}
+   
+        <ul>
+            <li>Date: {{transaction.date}}</li>
+            <li><h4>{{transaction.inc_exp}}</h4></li>
+            <li>Category: {{transaction.category}}</li>
+            <li>Amount: {{transaction.amount}}</li>
+            <li>Description: {{transaction.description}}</li>
+        </ul>
+        {% endfor %}
+        {% include "pagination.html" with page=transactions %}
+    {% endif %}
+
+</body>
+</html>

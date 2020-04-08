@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div>
+        <form>
+            <input type="date" id="from-date" pattern="\d{4}-\d{2}-\d{2}">
+            <input type="date" id="to-date" pattern="\d{4}-\d{2}-\d{2}">
+            <button id="filter">Filter</button>
+        </form>
+    </div>
+
+    <div id="data-filtered">
+        <div id="data-list"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script>
+        $('#filter').click(function (e) {
+            e.preventDefault();
+            var from_date = $('#from-date').val();
+            var to_date = $('#to-date').val();
+
+            $.ajax({
+                url: '/ajax/filter-transaction/',
+                data: {
+                    'from_date': from_date,
+                    'to_date': to_date,
+                },
+                success: function (data) {
+                    alert('ok');
+                    console.log(data[0].fields);
+                    $("#data_filtered").html(data) 
+
+                    var html = "<ul>"
+                        $.each( obj, function( key, value ) {
+                            html += "<li>"+dat+"</li>"
+                        });
+                    
+                    html += "</ul>"
+                    $("#result").html(html);
+                },
+                error: function (data) {
+                    alert('not ok');
+                },
+            });
+        });
+    </script>
+</body>
+
+</html>
